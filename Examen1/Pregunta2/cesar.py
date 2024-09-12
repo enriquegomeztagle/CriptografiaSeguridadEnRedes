@@ -8,6 +8,6 @@ def caesar_cipher(message, shift):
 
 
 name = "Enrique Ulises Baez Gomez Tagle"
-shift_value = 3
-encrypted_name = caesar_cipher(name, shift_value)
+shift = 3
+encrypted_name = caesar_cipher(name, shift)
 print(f"Ciphered name: {encrypted_name}")
