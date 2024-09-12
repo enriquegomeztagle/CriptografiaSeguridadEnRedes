@@ -28,4 +28,4 @@ wbqaho nfvp.
 
 key = "dx"
 encrypted_text = vigenere_cipher(text, key)
-print(f"Ciphered text: {encrypted_text}")
+print(f"Decrypted text: {encrypted_text}")
