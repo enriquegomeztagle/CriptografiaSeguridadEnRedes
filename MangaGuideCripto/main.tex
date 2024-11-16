@@ -1,0 +1,227 @@
+\documentclass{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{amsmath,amssymb,amsfonts,amsthm, mathrsfs}
+\usepackage[title]{appendix}
+\usepackage{xcolor}
+\usepackage{textcomp}
+\usepackage{manyfoot, booktabs}
+\usepackage{algorithm, algorithmicx, algpseudocode}
+\usepackage{listings}
+\usepackage{biblatex}
+
+\usepackage[spanish]{babel}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\raggedbottom
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+
+    \vspace{1cm}
+    {\huge\bfseries Manga Guide To Cryptography\par}
+    \vspace{2cm}
+    
+    {\Large\itshape Por:\par}
+    \vspace{0.5cm}
+    {\Large Enrique Ulises Báez Gómez Tagle\par}
+    \vspace{1.5cm}
+    
+    {\large Trabajo presentado para\par}
+    {\large la asignatura Criptografía y Seguridad en Redes\par}
+    \vspace{1.5cm}
+    
+    {\large Universidad Panmericana\par}
+    {\large Facultad de Ingeniería\par}
+    {\large Ciudad de México, México\par}
+    \vspace{1cm}
+    {\large \today\par}
+    
+    \vfill
+    
+\end{titlepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Manga Guide To Cryptography}
+
+\author{Enrique Ulises Báez Gómez Tagle}
+
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tableofcontents
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Objetivo}
+"The Manga Guide to Cryptography" nos enseña varios de los temas fundamentales de la seguridad de datos, algo crítico en 
+el área de la inteligencia de datos (donde nosotros nos desempeñamos actualmente). Este libro toca conceptos como los 
+algoritmos de cifrado simétrico o asimétrico, que por ejemplo, son cruciales para proteger la integridad de los datos 
+cuando hacemos procesamiento y análisis en entornos de big data.
+
+Otros temas que se tocan son la implementación de funciones hash y técnicas de autenticación, 
+que también son indispensables en el pipeline de datos actual, o por ejemplo, los conceptos de PKI también son súper 
+relevantes en los entornos de datos distribuidos y para la implementación de data lakes seguros.
+
+Para profesionales de datos como nosotros, es importantísimo comprender estos fundamentos de criptografía,
+pues la protección de datos sensibles y el cumplimiento de regulaciones de privacidad son inherentes al ciclo de vida del
+análisis de datos. Este libro nos ayudará a comprender estos temas de manera efectiva y a aplicarlos en nuestros proyectos.
+
+
+\section{Introducción}
+The Manga Guide es una serie súper interesante que nos acerca a conceptos técnicos usando el formato manga. En el caso 
+de la criptografía, esto es especialmente útil para nosotros como científicos de datos, ya que nos permite entender 
+conceptos complejos de seguridad a través de una historia entretenida con imagenes y hasta elementos de misterio.
+
+Aquí, seguimos a Ruka Meguro, al Inspector Jun Meguro y a Rio Yoneda, una reportera. Juntos intentan resolver el misterio
+de Ms. Cypher, una "ladrona fantasma". A través de esta trama, vamos aprendiendo los fundamentos de la criptografía que 
+aplicamos en nuestro trabajo diario con datos.
+
+Es increíble cómo la criptografía está presente en casi todo lo que hacemos en el análisis de datos, desde la 
+protección de bases de datos hasta la seguridad en nuestros pipelines de procesamiento. Este libro nos ayuda a 
+entender estos conceptos de forma práctica y amena. Si trabajas con datos, te recomiendo muchísimo leerlo completo, 
+ya que explica conceptos fundamentales que necesitamos manejar en nuestro día a día como profesionales de datos.
+
+\section{Desarrollo}
+    \subsection{Fundamentos de Encriptación}
+        \subsubsection{El Cifrado}
+            El cifrado es la técnica que usamos para proteger la información sensible, convirtiendo 
+        información legible en código secreto que solo pueden descifrar las personas autorizadas.
+        
+        \subsubsection{Modelo de Shannon}
+            Shannon revolucionó la criptografía cuando estableció que todo proceso de cifrado requiere un texto original, un método de 
+        encriptación (E) y una llave (K), siendo la desencriptación el proceso inverso usando un algoritmo de descifrado (D).
+
+        \subsubsection{Métodos Clásicos}
+            \begin{itemize}
+                \item \textbf{Cifrado César:} Simplemente consiste en avanzar cada letra un número fijo de espacios en el abecedario.
+                \item \textbf{Cifrado de Sustitución:} Hay que reemplazar las letras del mensaje usando una guía que nos dice qué letra va por cuál.
+                \item \textbf{Cifrado Polialfabético:} Es más complejo porque usa diferentes reglas de sustitución que van cambiando según avanzamos en el texto.
+                \item \textbf{Cifrado de Transposición:} Aquí, las letras son las mismas, solo que las mezclamos siguiendo cierta regla establecida.
+            \end{itemize}
+        
+        \subsubsection{Seguridad}
+            Para poder saber qué tan seguro puede ser un método de cifrado, hay que contemplar dos cosas principales:
+            \begin{itemize}
+                \item Cuántas llaves diferentes podemos usar (espacio de claves)
+                \item Qué tan resistente es contra alguien que intente analizar patrones en el texto
+            \end{itemize}
+            Cifrados como el de Vernam son "matemáticamente imposibles" de romper porque usan llaves
+            aleatorias tan larga como el mensaje mismo. Pero siendo realistas, esto no es muy práctico.
+        
+            Por eso en el mundo real usamos cifrados que son "suficientemente seguros", no 100\% seguros
+            pero usan mucho tiempo computacional o recursos computacionales que sería caro usarlos.
+
+    \subsection{Algoritmos de Llave Simétrica}
+            Literal como si tú y tu amigo tienen la misma llave para un candado. 
+            La ventaja de la criptografía simétrica es que es rápida y muy buena al momento de
+            manejar muchos datos, aunque mucho ojo a quién le compartimos la llave.
+        
+        \subsubsection{El ABC Digital: Bits y Operaciones}
+            Las computadoras hablan en unos y ceros (bits), y juntan estos en grupos de 8 (bytes). 
+            Para cifrar, usan trucos matemáticos como el XOR, así podemos recuperar cualquier parte 
+            del proceso si tenemos las otras dos.
+        
+        \subsubsection{Familias de Cifrado}
+            \begin{itemize}
+                \item \textbf{Cifrados de Flujo}
+                Estos cifran la información poco a poco, como una corriente continua. Usan una 
+                "receta secreta" muy larga para generar números que parecen aleatorios. 
+                RC4 y SEAL son algunos ejemplos famosos.
+                \item \textbf{Cifrados por Bloques}
+                Funcionan como un rompecabezas: dividen el mensaje en piezas iguales y las cifran 
+                una por una. Pueden trabajar con piezas de diferentes tamaños y tienen distintas 
+                formas de hacerlo (como ECB y CBC).
+            \end{itemize}
+            
+    
+        \subsubsection{DES}
+            DES fue el pionero en la encriptación comercial. Funciona dividiendo el mensaje en 
+            bloques y aplicando varias "vueltas" de cifrado. Aunque en su momento fue revolucionario, hoy en 
+            día su llave es demasiado pequeña para considerarse segura.
+        
+        \subsubsection{Los nuevos algoritmos: 3-DES y AES}
+            \begin{itemize}
+                \item \textbf{3-DES:} Como aplicar DES, pero tres veces seguidas, usando tres llaves 
+                diferentes.
+                \item \textbf{AES:} Es como un laberinto super complejo que mezcla y revuelve la información 
+                de formas muy sofisticadas, y usa una red de sustitución-permutación (SPN).
+            \end{itemize}
+
+    \subsection{criptografía asimétrica}
+        Es como si fuera un candado mágico que cualquiera puede cerrar, pero solo tú puedes abrir. 
+        La criptografía asimétrica: usa una llave pública (para que otros te 
+        envíen mensajes) y una privada (para que solo tú los leas).
+    
+    \subsection{Funciones Unidireccionales}
+        Tal cual, un tobogán matemático: fácil deslizarse hacia abajo, imposible subir. 
+        Es fácil multiplicar números grandes pero muy difícil encontrar sus factores.
+
+    \subsection{Números Primos y Factorización}
+        Los números primos son escenciales en de la criptografía, principalmente para encriptar
+        nuestra llave pública, y hay varios algoritmos que basan su seguridad en números compuestos
+        grandísimos que son difíciles de factorizar en primos.
+
+    \subsection{Operaciones de Módulo}
+        Se usan operaciones de módulo para las 4 operaciones básicas: suma, resta, multiplicación 
+        y divisón que igual se usa para encriptar por ejemplo llaves públicas. Y estas operaciones
+        solo se pueden hacer a ciertos números con características específicas.
+
+    \subsection{Teoremas de Fermat y Euler}
+        \begin{itemize}
+            \item El Teorema de Fermat describe el comportamiento de los números primos cuando 
+            se realizan operaciones de potenciación modular. 
+            \item El Teorema de Euler generaliza este concepto para cualquier número compuesto, introduciendo la función totient que cuenta 
+            números coprimos. 
+        \end{itemize}
+    
+    \subsection{Aplicaciones Prácticas de la Encriptación}
+        La encriptación va más allá de proteger la confidencialidad de datos, abarcando la 
+        integridad, autenticidad y no repudio de la información. Algunas de las que más me llamaron
+        la atención por el medio en el que me desempeño actualmente fueron:
+        \subsubsection{Funciones Hash}
+        "Huellas digitales" única para cada mensaje o los datos. Sirven para:
+        - Deduplicación de datos
+        - Anonimización de información sensible (como PII)
+        - Indexación y búsqueda rápida en grandes conjuntos de datos
+        - Verificación de integridad en pipelines de datos
+        
+        \subsubsection{Encriptación Híbrida}
+        Combina la velocidad de la encriptación simétrica para los datos y la seguridad de la 
+        asimétrica para el intercambio de claves. La usamos para:
+        - Almacenamiento seguro en data lakes
+        - Transferencia de grandes volúmenes de datos
+        - Protección de modelos de ML en producción
+        - Securización de APIs de servicios de datos
+        
+        \subsubsection{PKI (Infraestructura de Clave Pública)}
+        Es todo el sistema que permite que las firmas y certificados digitales funcionen de 
+        forma confiable. Se aplica en:
+        - Autenticación segura en servicios cloud de ML
+        - Certificación de origen de datos para modelos
+        - Gestión de accesos a recursos compartidos
+        - Verificación de integridad en pipelines de MLOps
+
+\section{Conclusiones}
+
+    A lo largo de esta lectura pude comprender los fundamentos de la criptografía y e identificar 
+    su aplicación en el análisis de datos para entenderlos mejor. Hoy en día las técnicas de encriptación 
+    son fundamentales para el procesamiento seguro de información. Y con lo aprendido en esta lectura, vemos que 
+    es posible balancear la seguridad con el rendimiento requerido en entornos de datos modernos.
+
+    En las funciones hash y la encriptación híbrida encontré nuevas herramientas para 
+    proteger y diseñar data lakes y pipelines de datos, y también me gustaría probar la infraestructura PKI para intentar facilitar el 
+    despliegue seguro de modelos de machine learning en entornos de producción.
+
+\section{Bibliografía}
+\textit{Mitani, M., Sato, S., \& Trend-Pro Co., Ltd. (2018). The manga guide to cryptography. No
+Starch Press.}
+\end{document}
+
+%%%%%%%%%%%%%%
+% Carátula
+% Índice
+% Objetivo (relacionado a los temas revisados en el libro)
+% Introducción (de máximo 3 párrafos)
+% Desarrollo (su entendimiento de los temas abordados en cada capítulo)
+% Conclusiones
+% Bibliografía
